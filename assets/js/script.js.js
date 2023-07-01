@@ -3,6 +3,7 @@ var score=0;
 var timeLeft=200;
 var questions=["what is the capital of Urugauy?","what is the capital of panama?"];
 var answerChoices =[["Manangua", "Santiago", "Monte Video", "Brasilia"],[""]]; //made of arry of strings
+// answerChoices[0][0]
 var correctAnswer= []; //made of strings
 var currentQuestions=0;
 
