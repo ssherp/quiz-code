@@ -18,7 +18,9 @@ var questions = [
 // // answerChoices[0][0]
 // var correctAnswer= []; //made of strings
 
-
+var startButton= document.getElementById ("start-button")
+var displayInit= document.querySelector ("#displayStart")
+var displayQuestion=document.querySelector("#display-questions")
 var currentQuestions=0;
 
 //all of our selectors
@@ -31,6 +33,7 @@ var quizTimer;
 function gameStart()  {
     //trggered when they pressed button(event listener)
     //starts the timer
+    
      quizTimer = setInterval(function() {
         timeLeft--;
         console.log(timeLeft);
@@ -39,9 +42,9 @@ function gameStart()  {
           endGame();  
         }
     }, 1000)
-
-        //set interval
-        //once the timer hits 0, call endGame function
+    displayInit.style.display="none"
+ //set interval
+ //once the timer hits 0, call endGame function
     //hide the start button
 
     //reveal the option, questions 
@@ -49,6 +52,8 @@ function gameStart()  {
 }
 
 function nextQuestion(){
+    displayQuestion.textContent=questions[0].question
+    
     
     
     
@@ -87,3 +92,4 @@ function saveInitials(){
 
 }
 //event listoner to triger to sart function
+startButton.addEventListener("click",gameStart)
