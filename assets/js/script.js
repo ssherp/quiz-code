@@ -1,27 +1,60 @@
 //global variables
 var score=0;
-var timeLeft=200;
-var questions=["what is the capital of Urugauy?","what is the capital of panama?"];
-var answerChoices =[["Manangua", "Santiago", "Monte Video", "Brasilia"],[""]]; //made of arry of strings
-// answerChoices[0][0]
-var correctAnswer= []; //made of strings
+var timeLeft=500;
+var questions = [
+    {
+        question: "what is the capital of Urugauy?",
+        choices: ["Manangua", "Santiago", "Monte Video", "Brasilia"],
+        answer: 'Brasilia'
+    },
+    {
+        question: "1+1",
+        choices: [11, 2, 5, 4],
+        answer: 2
+    },
+]
+// // var questions=["what is the capital of Urugauy?","what is the capital of panama?"];
+// var answerChoices =[["Manangua", "Santiago", "Monte Video", "Brasilia"],[""]]; //made of arry of strings
+// // answerChoices[0][0]
+// var correctAnswer= []; //made of strings
+
+
 var currentQuestions=0;
 
 //all of our selectors
-var questionE1= document.querySelector("#question");
-
+var questionE1= document.querySelector("#question")
+var timeEl = document.querySelector("#time")
+var quizTimer;
 
 
 //function
-function start()  {
+function gameStart()  {
     //trggered when they pressed button(event listener)
     //starts the timer
+     quizTimer = setInterval(function() {
+        timeLeft--;
+        console.log(timeLeft);
+        timeEl.textContent = "count down: "+timeLeft
+        if (timeLeft <= 0){
+          endGame();  
+        }
+    }, 1000)
+
         //set interval
         //once the timer hits 0, call endGame function
     //hide the start button
-    //reveal the option, questions
+
+    //reveal the option, questions 
+    nextQuestion()
 }
-function nextQuestion(event){
+
+function nextQuestion(){
+    
+    
+    
+}
+
+function checkAnswer(){
     //triggered when the user selects any answer
     // figure out what answer the user choose
     //figure out if the answer is right or wrong
@@ -31,11 +64,10 @@ function nextQuestion(event){
     //change the question
     //change the choices
 
-
-
 }
 
 function endGame(){
+    clearInterval(quizTimer)
     //triggered either when timeLeft becomes 0 or when the user finaishs all questions
     //prompts the user for a initials
     //displat the score
