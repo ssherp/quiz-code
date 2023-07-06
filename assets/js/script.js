@@ -88,6 +88,14 @@ function checkAnswer(event) {
         endGame();
     }
 }
+function endGame() {
+    clearInterval(quizTimer);
+    displayQuestion.textContent = "Quiz Completed!";
+    choicesContainer.innerHTML = "";
 
+    var finalScore = timeLeft;
+    var initials = prompt("Enter your initials:");
+}
 
+startButton.addEventListener("click", gameStart);
 
