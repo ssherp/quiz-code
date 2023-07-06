@@ -115,21 +115,21 @@ function endGame() {
 
     var submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
-submitButton.addEventListener("click", function () {
-  if (!submitted) {
-    var initials = initialsInput.value.trim();
-    if (initials !== "") {
-      var newScore = {
-        initials: initials,
-        score: finalScore
-      };
-      highScores.push(newScore);
-      localStorage.setItem("highScores", JSON.stringify(highScores));
-      displayHighScores();
-      submitted = true;
-    }
-  }
-});
+    submitButton.addEventListener("click", function () {
+        if (!submitted) {
+            var initials = initialsInput.value.trim();
+            if (initials !== "") {
+                var newScore = {
+                    initials: initials,
+                    score: finalScore
+                };
+                highScores.push(newScore);
+                localStorage.setItem("highScores", JSON.stringify(highScores));
+                displayHighScores();
+                submitted = true;
+            }
+        }
+    });
     document.body.appendChild(submitButton);
 
     var restartButton = document.createElement("button");
@@ -153,18 +153,18 @@ function displayHighScores() {
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     var highScoresContainer = document.querySelector("#high-scores");
     highScoresContainer.innerHTML = "";
-  
+
     highScores.forEach(function (score, index) {
-      var scoreItem = document.createElement("li");
-      scoreItem.textContent = "Initials: " + score.initials + " - Score: " + score.score;
-      highScoresContainer.appendChild(scoreItem);
+        var scoreItem = document.createElement("li");
+        scoreItem.textContent = "Initials: " + score.initials + " - Score: " + score.score;
+        highScoresContainer.appendChild(scoreItem);
     });
-  
+
     var clearButton = document.createElement("button");
     clearButton.textContent = "Clear Scores";
     clearButton.addEventListener("click", function () {
-      localStorage.removeItem("highScores");
-      displayHighScores();
+        localStorage.removeItem("highScores");
+        displayHighScores();
     });
     highScoresContainer.appendChild(clearButton);
-  }
+}
