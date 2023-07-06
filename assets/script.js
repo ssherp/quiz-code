@@ -1,4 +1,3 @@
-//global variables
 var score = 0;
 var timeLeft = 100;
 var questions = [
@@ -8,45 +7,46 @@ var questions = [
         answer: 'const'
     },
     {
-        question: "Which function is used to serialize an object into a JSON string in Javascript?",
+        question: "Which function is used to serialize an object into a JSON string in JavaScript?",
         choices: ["stringify", "parse", "convert", "element"],
         answer: "stringify"
     },
     {
-        question: "Which of the following is not a Javascript framework?",
+        question: "Which of the following is not a JavaScript framework?",
         choices: ["node", "vue", "react", "cassandra"],
         answer: "cassandra"
     },
     {
-        question: "Which of the following scoping type does JavaScript use?",
+        question: "Which of the following scoping types does JavaScript use?",
         choices: ["sequential", "segmental", "lexical", "literal"],
         answer: "lexical"
     },
     {
-        question: "Which of the following tag is used to insert a line-break in HTML?",
+        question: "Which of the following tags is used to insert a line-break in HTML?",
         choices: ["br", "a", "pre", "b"],
         answer: "br"
     }
 ];
-//all of our selectors
+
 var startButton = document.getElementById("start-button");
 var displayInit = document.querySelector("#displayStart");
 var displayQuestion = document.querySelector("#display-question");
 var choicesContainer = document.querySelector("#choices");
-var timeLeftDisplay = document.querySelector("#time-left");
 var currentQuestionIndex = 0;
 var quizTimer;
+timeLeftDisplay = document.querySelector("#time-left");
+startButton.addEventListener("click", gameStart);
 
-
-//function
 function gameStart() {
     displayInit.style.display = "none";
     showQuestion();
+
+
     startTimer();
-    //starts the timer
+
     choicesContainer.addEventListener("click", checkAnswer);
-    //trggered when they pressed button(event listener)
 }
+
 function showQuestion() {
     var currentQuestion = questions[currentQuestionIndex];
     displayQuestion.textContent = currentQuestion.question;
@@ -58,6 +58,7 @@ function showQuestion() {
         choicesContainer.appendChild(choiceButton);
     }
 }
+
 function startTimer() {
     quizTimer = setInterval(function () {
         timeLeft--;
@@ -68,6 +69,7 @@ function startTimer() {
         }
     }, 1000);
 }
+
 function checkAnswer(event) {
     if (event.target.matches("button")) {
         var selectedAnswer = event.target.textContent;
@@ -75,27 +77,71 @@ function checkAnswer(event) {
 
         if (selectedAnswer === currentQuestion.answer) {
             score++;
-        }
-        else {
+        } else {
             timeLeft -= 15;
         }
+
         currentQuestionIndex++;
 
-        if (currentQuestionIndex < questions.length);
-        showQuestion();
-    }
-    else {
-        endGame();
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            endGame();
+        }
     }
 }
+
 function endGame() {
     clearInterval(quizTimer);
     displayQuestion.textContent = "Quiz Completed!";
     choicesContainer.innerHTML = "";
 
     var finalScore = timeLeft;
-    var initials = prompt("Enter your initials:");
+
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+    var finalScoreDisplay = document.createElement("p");
+    finalScoreDisplay.textContent = "Final Score: " + finalScore;
+    document.body.appendChild(finalScoreDisplay);
+
+    var initialsLabel = document.createElement("label");
+    initialsLabel.textContent = "Enter your initials: ";
+    var initialsInput = document.createElement("input");
+    initialsInput.type = "text";
+    initialsInput.id = "initials-input";
+    initialsLabel.appendChild(initialsInput);
+    document.body.appendChild(initialsLabel);
+
+    var submitButton = document.createElement("button");
+    submitButton.textContent = "Submit";
+    submitButton.addEventListener("click", function () {
+        var initials = initialsInput.value.trim();
+        if (initials !== "") {
+            var newScore = {
+                initials: initials,
+                score: finalScore
+            };
+            highScores.push(newScore);
+            localStorage.setItem("highScores", JSON.stringify(highScores));
+            displayHighScores();
+        }
+    });
+    document.body.appendChild(submitButton);
+
+    var restartButton = document.createElement("button");
+    restartButton.textContent = "Start Over";
+    restartButton.addEventListener("click", function () {
+        location.reload();
+    });
+    document.body.appendChild(restartButton);
+
+    var clearButton = document.createElement("button");
+    clearButton.textContent = "Clear Scores";
+    clearButton.addEventListener("click", function () {
+        localStorage.removeItem("highScores");
+        displayHighScores();
+    });
+    document.body.appendChild(clearButton);
+
+    displayHighScores();
 }
-
-startButton.addEventListener("click", gameStart);
-
