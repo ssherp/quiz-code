@@ -145,3 +145,22 @@ function endGame() {
 
     displayHighScores();
 }
+function displayHighScores() {
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    var highScoresContainer = document.querySelector("#high-scores");
+    highScoresContainer.innerHTML = "";
+  
+    highScores.forEach(function (score, index) {
+      var scoreItem = document.createElement("li");
+      scoreItem.textContent = "Initials: " + score.initials + " - Score: " + score.score;
+      highScoresContainer.appendChild(scoreItem);
+    });
+  
+    var clearButton = document.createElement("button");
+    clearButton.textContent = "Clear Scores";
+    clearButton.addEventListener("click", function () {
+      localStorage.removeItem("highScores");
+      displayHighScores();
+    });
+    highScoresContainer.appendChild(clearButton);
+  }
