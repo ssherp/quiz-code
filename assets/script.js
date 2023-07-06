@@ -34,6 +34,7 @@ var displayQuestion = document.querySelector("#display-question");
 var choicesContainer = document.querySelector("#choices");
 var currentQuestionIndex = 0;
 var quizTimer;
+var submitted = false;
 timeLeftDisplay = document.querySelector("#time-left");
 startButton.addEventListener("click", gameStart);
 
@@ -114,18 +115,21 @@ function endGame() {
 
     var submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
-    submitButton.addEventListener("click", function () {
-        var initials = initialsInput.value.trim();
-        if (initials !== "") {
-            var newScore = {
-                initials: initials,
-                score: finalScore
-            };
-            highScores.push(newScore);
-            localStorage.setItem("highScores", JSON.stringify(highScores));
-            displayHighScores();
-        }
-    });
+submitButton.addEventListener("click", function () {
+  if (!submitted) {
+    var initials = initialsInput.value.trim();
+    if (initials !== "") {
+      var newScore = {
+        initials: initials,
+        score: finalScore
+      };
+      highScores.push(newScore);
+      localStorage.setItem("highScores", JSON.stringify(highScores));
+      displayHighScores();
+      submitted = true;
+    }
+  }
+});
     document.body.appendChild(submitButton);
 
     var restartButton = document.createElement("button");
