@@ -59,15 +59,35 @@ function showQuestion() {
     }
 }
 function startTimer() {
-        quizTimer = setInterval(function () {
-            timeLeft--;
-            timeLeftDisplay.textContent = timeLeft;
+    quizTimer = setInterval(function () {
+        timeLeft--;
+        timeLeftDisplay.textContent = timeLeft;
 
-    if (timeLeft <= 0 || currentQuestionIndex >= questions.length) {
+        if (timeLeft <= 0 || currentQuestionIndex >= questions.length) {
             endGame();
-            }
+        }
     }, 1000);
-
 }
+function checkAnswer(event) {
+    if (event.target.matches("button")) {
+        var selectedAnswer = event.target.textContent;
+        var currentQuestion = questions[currentQuestionIndex];
+
+        if (selectedAnswer === currentQuestion.answer) {
+            score++;
+        }
+        else {
+            timeLeft -= 15;
+        }
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length);
+        showQuestion();
+    }
+    else {
+        endGame();
+    }
+}
+
 
 
