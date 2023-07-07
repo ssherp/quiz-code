@@ -1,5 +1,6 @@
 var score = 0;
 var timeLeft = 100;
+//maked object array
 var questions = [
     {
         question: "How can a datatype be declared to be a constant type?",
@@ -27,7 +28,7 @@ var questions = [
         answer: "br"
     }
 ];
-
+// all globle variable 
 var startButton = document.getElementById("start-button");
 var displayInit = document.querySelector("#displayStart");
 var displayQuestion = document.querySelector("#display-question");
@@ -36,18 +37,17 @@ var currentQuestionIndex = 0;
 var quizTimer;
 var submitted = false;
 timeLeftDisplay = document.querySelector("#time-left");
+//add event listener
 startButton.addEventListener("click", gameStart);
-
+//start the game after click happens
 function gameStart() {
     displayInit.style.display = "none";
     showQuestion();
-
-
     startTimer();
 
     choicesContainer.addEventListener("click", checkAnswer);
 }
-
+//show question function is called
 function showQuestion() {
     var currentQuestion = questions[currentQuestionIndex];
     displayQuestion.textContent = currentQuestion.question;
@@ -59,23 +59,24 @@ function showQuestion() {
         choicesContainer.appendChild(choiceButton);
     }
 }
-
+//starttimer function is called
 function startTimer() {
     quizTimer = setInterval(function () {
         timeLeft--;
         timeLeftDisplay.textContent = timeLeft;
-
+//if statement if time hits 0
+//time interveal
         if (timeLeft <= 0 || currentQuestionIndex >= questions.length) {
             endGame();
         }
     }, 1000);
 }
-
+//check answer function is called
 function checkAnswer(event) {
     if (event.target.matches("button")) {
         var selectedAnswer = event.target.textContent;
         var currentQuestion = questions[currentQuestionIndex];
-
+//if statement to lose points for wrong answers
         if (selectedAnswer === currentQuestion.answer) {
             score++;
         } else {
@@ -83,7 +84,7 @@ function checkAnswer(event) {
         }
 
         currentQuestionIndex++;
-
+//if statement if all the questions are done then do endgame
         if (currentQuestionIndex < questions.length) {
             showQuestion();
         } else {
@@ -91,14 +92,14 @@ function checkAnswer(event) {
         }
     }
 }
-
+//start endGame 
 function endGame() {
     clearInterval(quizTimer);
     displayQuestion.textContent = "Quiz Completed!";
     choicesContainer.innerHTML = "";
 
     var finalScore = timeLeft;
-
+//store highscores in localstorage
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
     var finalScoreDisplay = document.createElement("p");
@@ -112,7 +113,7 @@ function endGame() {
     initialsInput.id = "initials-input";
     initialsLabel.appendChild(initialsInput);
     document.body.appendChild(initialsLabel);
-
+//add submit button, and update final score
     var submitButton = document.createElement("button");
     submitButton.textContent = "Submit";
     submitButton.addEventListener("click", function () {
@@ -131,7 +132,7 @@ function endGame() {
         }
     });
     document.body.appendChild(submitButton);
-
+//start over option
     var restartButton = document.createElement("button");
     restartButton.textContent = "Start Over";
     restartButton.addEventListener("click", function () {
@@ -149,6 +150,7 @@ function endGame() {
 
     displayHighScores();
 }
+//run displayHighScore function to show score
 function displayHighScores() {
     var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
     var highScoresContainer = document.querySelector("#high-scores");
@@ -159,7 +161,7 @@ function displayHighScores() {
         scoreItem.textContent = "Initials: " + score.initials + " - Score: " + score.score;
         highScoresContainer.appendChild(scoreItem);
     });
-
+//event listener for highscore
     var clearButton = document.createElement("button");
     clearButton.textContent = "Clear Scores";
     clearButton.addEventListener("click", function () {
